@@ -36,7 +36,7 @@ body.red{
     --text-color: #ff4444;
     --cmd-color: #ff4444;
     --warn-color: #ffaa00;
-    --err-color: #ff0000;
+    --error-color: #ff0000;
     --success-color: #beff88;
     --info-color: #ffaaaa;
     --cursor-color: #ff4444;
@@ -168,11 +168,16 @@ body {
     animation: pulse-error 0.5s ease-out;
 }
 
-.line.error{
-    color: var(--error-color);
-    font-weight: bold; 
+.line.info {
+    color: var(--info-color);
+    font-style: italic;
+    opacity: 0.85;
 }
 
+.line.err {
+    color: var(--error-color);
+    font-weight: bold;
+}
 .line.success{
     color: var(--success-color);
     font-weight: bold;
@@ -210,7 +215,7 @@ body {
 
 .line.current.info-typing{
     color: var(--info-color);
-    font-weight: italic;
+    font-style: italic;
 }
 .line.current.out-typing{
     color: var(--text-color);
