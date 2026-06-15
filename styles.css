@@ -1,0 +1,259 @@
+:root {
+    --text-color: #33ff33;
+    --cmd-color: #33ff33;
+    --warn-color: #ffcc00;
+    --error-color: #ff4444;
+    --success-color: #00ff88;
+    --info-color: #44aaff;
+    --cursor-color: #33ff33;
+    --bg-color: #050505;
+    --prompt-color: #33ff33;
+}
+
+body.green{
+    --text-color: #33ff33;
+    --cmd-color: #33ff33;
+    --warn-color: #ffcc00;
+    --error-color: #ff4444;
+    --success-color: #00ff88;
+    --info-color: #44aaff;
+    --cursor-color: #33ff33;
+    --prompt-color: #33ff33;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #050505;
+    font-family: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', 'Courier', monospace;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-color);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    text-rendering: optimizeSpeed;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: crosshair;   
+}
+
+body::before{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, 
+        rgba(0, 0, 0, 0.035) 0px,
+        rgba(0, 0, 0, 0.035) 2px,
+        transparent 2px,
+        transparent 4px);
+    pointer-events: none;
+    z-index: 200;
+    animation: scanline-drift 0.1s linear infinite;
+}  
+
+@keyframes scanline-drift {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(4px);
+    }
+}
+
+body::after{
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center,
+        transparent 55%,
+        rgba(0, 0, 0, 0.3) 75%,
+        rgba(0, 0, 0, 0.75) 100%);
+    pointer-events: none;
+    z-index: 201;
+}
+
+@keyframes flicker {
+    0%, 99.5%, 100% {
+        opacity: 1;
+    }
+    99.6%, 99.8%{
+        opacity: 0.85;
+    }
+    99.7%{ 
+        opacity: 0.7;
+    }
+}
+
+body {
+    animate: flicker 4s infinite;
+}
+
+.terminal {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: 10;
+    opacity: 1; 
+}
+
+#lines{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 18px 22px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.line {
+    white-space: pre-wrap;
+    word-break: break-all;
+    min-height: 1.55em;
+    opacity: 0.92;
+    transform: opacity 0.15s;
+}
+
+.line.cmd{
+    color: var(--cmd-color);
+    font-weight: bold;
+}
+
+.line.out {
+    color: var(--text-color);
+    opacity: 0.82;
+}
+
+.line.warn {
+    color: var(--warn-color);
+    font-weight: bold;
+    animation: pulse-error 0.5s ease-out;
+}
+
+.line.error{
+    color: var(--error-color);
+    font-weight: bold; 
+}
+
+.line.success{
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+@keyframes pulse-error {
+    0% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.line.current{
+    color: var(--text-color);
+    opacity: 1;
+    display: inline;
+}
+
+.line.current.cmd-typing{
+    color: var(--cmd-color);
+    font-weight: bold;
+}
+
+.line.current.error-typing{
+    color: var(--error-color);
+    font-weight: bold;
+}
+
+.line.line.current.success-typing {
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.line.current.info-typing{
+    color: var(--info-color);
+    font-weight: italic;
+}
+.line.current.out-typing{
+    color: var(--text-color);
+    opacity: 0.82;
+}
+
+.cursor{
+    display: inline-block;
+    width: 0.55em;
+    height: 1.15em;
+    background-color: var(--cursor-color);
+    vertical-align: text-bottom;
+    margin-left: 1px;
+    animation: blink 1s step-end infinite;
+    position: relative;
+    top: 0.05em;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.hint{
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 299;
+    color: var(--text-color);
+    opacity: 0.5;
+    font-family: inherit;
+    font-size: 12px;
+    pointer-events: none;
+    letter-spacing: 1px;
+    transition: opacity 0.8s;
+    text-align: center;
+}
+
+.hint.fading{
+    opacity: 0.15;
+}
+
+@media (max-width: 600px){
+    body {
+        font-size: 13px;
+    }
+    #lines {
+        padding: 12px 14px 16px 14px;
+    }
+    #hint {
+        bottom: 40px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 380px){
+    body{
+        font-size: 11px;
+    }
+    #lines{
+        padding: 8px 10px 12px 10px;
+    }
+}
