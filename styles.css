@@ -21,6 +21,28 @@ body.green{
     --prompt-color: #33ff33;
 }
 
+body.white{
+    --text-color: #e0e0e0;
+    --cmd-color: #e0e0e0;
+    --warn-color: #f1bd9e;
+    --error-color: #ff4444;
+    --success-color: #aaffaa;
+    --info-color: #aaaaff;
+    --cursor-color: #e0e0e0;
+    --prompt-color: #e0e0e0;
+}
+
+body.red{
+    --text-color: #ff4444;
+    --cmd-color: #ff4444;
+    --warn-color: #ffaa00;
+    --err-color: #ff0000;
+    --success-color: #beff88;
+    --info-color: #ffaaaa;
+    --cursor-color: #ff4444;
+    --prompt-color: #ff4444;  
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -108,7 +130,7 @@ body {
     width: 100vw;
     overflow: hidden;
     z-index: 10;
-    opacity: 1; 
+    padding: 0;
 }
 
 #lines{
@@ -247,6 +269,23 @@ body {
         bottom: 40px;
         font-size: 10px;
     }
+    #color-switcher {
+        top: 10px;
+        right: 10px;
+    }
+    #color-switcher .dot{
+        width: 6px;
+        height: 6px;
+    }
+    #color-switcher .options {
+        min-width: 105px;
+        padding: 8px 10px;
+        gap: 4px;
+    }
+    #color-switcher .opt{
+        font-size: 11px;
+        padding: 6px 10px;
+    }
 }
 
 @media (max-width: 380px){
@@ -256,4 +295,114 @@ body {
     #lines{
         padding: 8px 10px 12px 10px;
     }
+    #color-switcher {
+        top: 6px;
+        right: 6px;
+    }
+    #color-switcher .dot{
+        width: 5px;
+        height: 5px;
+    }
+    #color-switcher {
+        gap: 4px;
+        padding: 4px 6px;
+    }
+}
+
+#color-switcher{
+    position: fixed;
+    top: 16px;
+    right: 18px;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    cursor: pointer;
+}
+
+#color-switcher .dots-row {
+    display: flex;
+    gap: 6px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+#color-switcher .dots-row:hover{
+    background: rgba(255, 255, 255, 0.04);
+}
+
+#color-switcher .dot{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-color);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+#color-switcher:hover .dot{
+    opacity: 1;
+}
+
+#color-switcher .options{
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    min-width: 120px;
+}
+
+#color-switcher.open .options {
+    display: flex;
+}
+
+#color-switcher .opt{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    color: #ccc;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+}
+
+#color-switcher .opt:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+
+#color-switcher .opt .swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.opt.green .swatch{
+    background: #33ff33;
+}
+
+.opt.white .swatch{
+    background: #e0e0e0;
+}
+
+.opt.red .swatch{
+    background: #ff4444;
+}
+
+#color-switcher .opt.active{
+    color: #fff;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.08);
 }
