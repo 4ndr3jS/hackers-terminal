@@ -16,6 +16,8 @@
     const currentLineEl = document.getElementById('current-line');
     const cursor = document.getElementById('cursor');
     const hintEl = document.getElementById('hint');
+    const colorSwitcher = document.getElementById('color-switcher');
+    const dotsTrigger = document.getElementById('dots-trigger');
 
     function extractPrompt(cmdText){
         const match = cmdText.match(/^(.+?[\$#]\s)/);
@@ -164,22 +166,50 @@
     document.addEventListener('keydown', function(e) {
         if(e.key === 'Control' || e.key === 'Shift' || e.key === 'Alt' || e.key === 'Meta' || e.key === 'CapsLock' || e.key === 'NumLock' || e.key === 'ScrollLock' || e.key === 'Fn' || e.key === 'Hyper' || e.key === 'Super' || e.key === 'OS' || e.key === 'Symbol')
             return;
+        if(colorSwitcher.contains(e.target))
+            return;
         e.preventDefault();
         advance();
     });
 
     document.addEventListener('click', function(e) {
+        if (colorSwitcher.contains(e.target))
+            return;
         advance();
-    })
+    });
 
     document.addEventListener('touchstart', function(e) {
-        advance();
-    })
-
-    document.addEventListener('click', function(e) {
+        if (colorSwitcher.contains(e.target))
+            return;
         advance();
     }, { passive: true });
 
+    dotsTrigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        colorSwitcher.classList.toggle('open');
+    });
+
+    const colorOptions = colorSwitcher.querySelectorAll('.opt');
+    colorOptions.forEach(function(opt) {
+        opt.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const theme = opt.getAttribute('data-theme');
+            document.body.classList.remove('green', 'white', 'red');
+            document.body.classList.add(theme);
+            colorOptions.forEach(o => o.classList.remove('active'));
+            opt.classList.add('active');
+            colorSwitcher.classList.remove('open');
+            cursorSpan.style.animation = 'none';
+            cursorSpan.offsetHeight;
+            cursorSpan.style.animation = '';
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!colorSwitcher.contains(e.target)) {
+            colorSwitcher.classList.remove('open');
+        }
+    });
+
     updateCurrentLineDisplay();
-    console.log('please workkkkk');
 })();
