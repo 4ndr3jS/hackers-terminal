@@ -235,6 +235,8 @@
     }
 
     document.addEventListener('keydown', function(e) {
+        if(e.repeat)
+            return;
         if(e.key === 'Control' || e.key === 'Shift' || e.key === 'Alt' || e.key === 'Meta' || e.key === 'CapsLock' || e.key === 'NumLock' || e.key === 'ScrollLock' || e.key === 'Fn' || e.key === 'Hyper' || e.key === 'Super' || e.key === 'OS' || e.key === 'Symbol')
             return;
         if(colorSwitcher.contains(e.target))
